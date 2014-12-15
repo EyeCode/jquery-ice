@@ -1,97 +1,93 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta charset='utf-8'>
+<head>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Jquery-ice : jQuery ICE (Initalize Callable Events)">
+    <title>jQuery-class by EyeCode</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+</head>
 
-    <title>Jquery-ice</title>
-  </head>
+<body>
+    <div id="header">
+        <nav>
+            <li class="eyecode"><img src="images/eyecode.png"/></li>
+            <li class="fork"><a href="https://github.com/EyeCode/jquery-ice">View On GitHub</a></li>
+            <li class="downloads"><a href="https://github.com/EyeCode/jquery-ice/zipball/master">ZIP</a></li>
+            <li class="downloads"><a href="https://github.com/EyeCode/jquery-ice/tarball/master">TAR</a></li>
+            <li class="title">DOWNLOADS</li>
+        </nav>
+    </div><!-- end header -->
 
-  <body>
+    <div class="wrapper">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/EyeCode/jquery-ice">View on GitHub</a>
+        <section>
+            <div id="title">
+                <h1>jQuery-ICE</h1>
+                <p>Initialize Callable Events</p>
+                <hr>
+                <span class="credits left">Project maintained by <a href="https://github.com/EyeCode">EyeCode</a></span>
+            </div>
 
-          <h1 id="project_title">Jquery-ice</h1>
-          <h2 id="project_tagline">jQuery ICE (Initalize Callable Events)</h2>
+            <blockquote>
+                <p>Set your template and let jquery-ICE call methods from raised events</p>
+            </blockquote>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/EyeCode/jquery-ice/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/EyeCode/jquery-ice/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+            <p>Prerequisite:</p>
+            <ul>
+                <li><a href="https://github.com/jquery/jquery">jQuery</a></li>
+                <li><a href="https://github.com/EyeCode/jquery-class">jQuery-Class</a></li>
+            </ul>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a id="jquery-ice-initialize-callable-events" class="anchor" href="#jquery-ice-initialize-callable-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>jQuery-ICE (Initialize Callable Events)</h1>
+            <h2><a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+            <blockquote>
+                <p>You can dowmload it from here or install via bower with the following package:</p>
+            </blockquote>
 
-<blockquote>
-<p>Set your template and let jquery-ICE call methods from raised events</p>
-</blockquote>
+            <pre><code>"jquery-ice": "1.0.*"</code></pre>
 
-<p>Prerequisite:</p>
+            <h2>
+                <a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Use</h2>
 
-<ul>
-<li><a href="https://github.com/jquery/jquery">jQuery</a></li>
-<li><a href="https://github.com/EyeCode/jquery-class">jQuery-Class</a></li>
-</ul>
+            <p>1) Include <code>jquery-ice.js</code> in the page (or use the minified version) with there dependency (jquery and jquery-class)</p>
 
-<h2>
-<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+            <p>2) Now play with the dom:</p>
 
-<blockquote>
-<p>You can dowmload it from here or install via bower with the following package:</p>
-</blockquote>
-
-<pre><code>"jquery-ice": "1.0.*"
-</code></pre>
-
-<h2>
-<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Use</h2>
-
-<p>1) Include <code>jquery-ice.js</code> in the page (or use the minified version) with there dependency (jquery and jquery-class)</p>
-
-<p>2) Now play with the dom:</p>
-
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">a</span> <span class="pl-e">data-ice</span>=<span class="pl-s1"><span class="pl-pds">"</span>click|alert<span class="pl-pds">"</span></span> <span class="pl-e">data-ice-params</span>=<span class="pl-s1"><span class="pl-pds">"</span>Hello World!<span class="pl-pds">"</span></span>
+            <div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">a</span> <span class="pl-e">data-ice</span>=<span class="pl-s1"><span class="pl-pds">"</span>click|alert<span class="pl-pds">"</span></span> <span class="pl-e">data-ice-params</span>=<span class="pl-s1"><span class="pl-pds">"</span>Hello World!<span class="pl-pds">"</span></span>
     <span class="pl-e">Call</span> <span class="pl-e">this</span>
 &lt;/<span class="pl-e">a</span>&gt;</pre></div>
 
-<h3>
-<a id="syntax" class="anchor" href="#syntax" aria-hidden="true"><span class="octicon octicon-link"></span></a>Syntax</h3>
+            <h3>
+                <a id="syntax" class="anchor" href="#syntax" aria-hidden="true"><span class="octicon octicon-link"></span></a>Syntax</h3>
 
-<p>&lt;<a href="https://github.com/tag" class="user-mention">@tag</a> data-ice="" [data-ice-params=""] [data-ice-event=""]&gt;</p>
+            <p>&lt;<a href="https://github.com/tag" class="user-mention">@tag</a> data-ice="" [data-ice-params=""] [data-ice-event=""]&gt;</p>
 
-<ul>
-<li>
-<a href="https://github.com/tag" class="user-mention">@tag</a>: any html tag is able to run this (a, div, button, etc...)</li>
-<li>data-ice: [event|method or event|namespace] Event following by the method to call, you just have to separate event from callable with a pipe.</li>
-<li>data-ice-params: [Optional(mixed)] This is optional, string, integer or object can be contained here, but becareful to write well defined object if used.</li>
-<li>data-ice-event: [Optional(string] This is also optional, but allows, directly from the dom, to register an event.</li>
-</ul>
+            <ul>
+                <li>
+                    <a href="https://github.com/tag" class="user-mention">@tag</a>: any html tag is able to run this (a, div, button, etc...)</li>
+                <li>data-ice: [event|method or event|namespace] Event following by the method to call, you just have to separate event from callable with a pipe.</li>
+                <li>data-ice-params: [Optional(mixed)] This is optional, string, integer or object can be contained here, but becareful to write well defined object if used.</li>
+                <li>data-ice-event: [Optional(string] This is also optional, but allows, directly from the dom, to register an event.</li>
+            </ul>
 
-<p>Complete Doc : <a href="http://eyecode.github.io/jquery-ice/">http://eyecode.github.io/jquery-ice/</a></p>
-      </section>
+            <div id="foot">
+                <hr>
+                <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+            </div>
+        </section>
+
     </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Jquery-ice maintained by <a href="https://github.com/EyeCode">EyeCode</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
-  </body>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+</body>
 </html>

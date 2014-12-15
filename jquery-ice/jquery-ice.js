@@ -1,6 +1,6 @@
 /**
  * JQuery Ice tool -- (I)nitialize (C)all to (E)vents
- * v1.0.3
+ * v1.0.4
  * GOAL: Provide a simple and robust method to listen and react to events
  *       on DOM regardless of whether it is static or dynamic
  *
@@ -78,7 +78,7 @@ new $.Class({
             }
         });
 
-        method !== window ? $.proxy(method, null, params)() : null;
+        method !== window ? $.proxy(method, null, params, $(element))() : null;
     },
 
     /**

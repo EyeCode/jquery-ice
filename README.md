@@ -4,8 +4,8 @@
 
 Prerequisite:
 
-* jQuery
-* jQuery-Class
+* [jQuery](https://github.com/jquery/jquery)
+* [jQuery-Class](https://github.com/EyeCode/jquery-class)
 
 ## Install
 

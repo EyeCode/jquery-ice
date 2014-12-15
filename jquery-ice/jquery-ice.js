@@ -52,12 +52,10 @@ new $.Class({
      * @param event
      */
     addListener: function(event) {
-        console.log(this.buildStrListener(event));
         $('body').on(event, this.buildStrListener(event), function (e) {
             e.preventDefault();
             var $element = $(this);
             if (typeof $element.prop('disabled') === "undefined") {
-                console.log(e);
                 ice.call($element, e.type);
             }
         });

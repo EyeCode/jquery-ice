@@ -1,0 +1,24 @@
+{
+  "name": "jquery-ice",
+  "version": "2.0.8",
+  "homepage": "http://eyecode.github.io/jquery-ice/",
+  "description": "JQuery ICE (Initialize Callable Events)",
+  "main": ["./jquery-ice/jquery.ice.js","./jquery-ice/jquery.ice.min.js"],
+  "keywords": [
+    "jquery",
+    "initialize",
+    "event"
+  ],
+  "authors": [
+    "EyeCode"
+  ],
+  "license": "MIT",
+  "dependencies": {
+      "jquery": "latest",
+      "jquery-class-ns": "2.0.*"
+  },
+  "ignore": [
+    "README*",
+    "*.json"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "jquery-ice",
-  "version": "2.0.8",
+  "version": "1.0.0",
   "homepage": "http://eyecode.github.io/jquery-ice/",
   "description": "JQuery ICE (Initialize Callable Events)",
   "main": ["./jquery-ice/jquery.ice.js","./jquery-ice/jquery.ice.min.js"],

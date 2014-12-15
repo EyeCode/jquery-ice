@@ -1,5 +1,6 @@
 /**
- * Ice tool -- (I)nitialize (C)all to (E)vents
+ * JQuery Ice tool -- (I)nitialize (C)all to (E)vents
+ * v1.0.0
  * GOAL: Provide a simple and robust method to listen and react to events
  *       on DOM regardless of whether it is static or dynamic
  *
@@ -9,8 +10,8 @@
  *          event: It is the listening event
  *          namespace: the namespace/method to call
  * Example:
- *  <a href="url/to/navigate" data-ice="click.async.load">click here</a>
- *  This will listen on click of the element and call async.load() method
+ *  <a data-ice="click|alert" data-ice-params="HELLO WORLD!">click here</a>
+ *  This will listen on click of the element and call alert() with declared params
  */
 
 new $.Class({

@@ -1,6 +1,6 @@
 /**
  * JQuery Ice tool -- (I)nitialize (C)all to (E)vents
- * v1.0.4
+ * v1.0.5
  * GOAL: Provide a simple and robust method to listen and react to events
  *       on DOM regardless of whether it is static or dynamic
  *
@@ -9,12 +9,12 @@
  *        Where:
  *          event: It is the listening event
  *          namespace: the namespace/method to call
- * Example:
+ * Basic example:
  *  <a data-ice="click|alert" data-ice-params="HELLO WORLD!">click here</a>
  *  This will listen on click of the element and call alert() with declared params
  */
 
-new $.Class({
+$.Class({
     namespace: 'ice',
 
     // constant
@@ -70,7 +70,7 @@ new $.Class({
     call: function (element, event) {
         var calling = this.callable($(element), event),
             params = this.getArguments($(element))
-            method = window;
+        method = window;
 
         $.each(calling, function(index, value){
             if (typeof method[value] !== 'undefined') {
@@ -79,6 +79,25 @@ new $.Class({
         });
 
         method !== window ? $.proxy(method, null, params, $(element))() : null;
+    },
+
+    /**
+     * Call the callback for the defined element
+     *
+     * @param element
+     * @param params
+     */
+    callback: function (element, params) {
+        var method = window;
+        if ($(element).data('iceCallback')) {
+            $.each($(element).data('iceCallback').split('.'), function(index, value){
+                if (typeof method[value] !== 'undefined') {
+                    method = method[value];
+                }
+            });
+
+            $.proxy(method, null, params, $(element))();
+        }
     },
 
     /**

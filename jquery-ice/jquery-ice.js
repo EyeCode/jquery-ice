@@ -1,6 +1,6 @@
 /**
  * JQuery Ice tool -- (I)nitialize (C)all to (E)vents
- * v1.0.5
+ * v1.0.6
  * GOAL: Provide a simple and robust method to listen and react to events
  *       on DOM regardless of whether it is static or dynamic
  *
@@ -28,8 +28,7 @@ $.Class({
 
     /**
      * Initialization of action
-     *    Call method configured in the data-action element
-     *    see it.callback.action for methods definition
+     *    Call method configured in the data-ice element
      */
     init: function () {
         this.registerIceEvents(this);
@@ -53,10 +52,9 @@ $.Class({
      */
     addListener: function(event) {
         $('body').on(event, this.buildStrListener(event), function (e) {
-            e.preventDefault();
             var $element = $(this);
             if (typeof $element.prop('disabled') === "undefined") {
-                ice.call($element, e.type);
+                ice.call($element, e);
             }
         });
     },
@@ -68,9 +66,9 @@ $.Class({
      * @param event   The event raised
      */
     call: function (element, event) {
-        var calling = this.callable($(element), event),
-            params = this.getArguments($(element))
-        method = window;
+        var calling = this.callable($(element), event.type),
+            params = this.getArguments($(element)),
+            method = window;
 
         $.each(calling, function(index, value){
             if (typeof method[value] !== 'undefined') {
@@ -78,7 +76,7 @@ $.Class({
             }
         });
 
-        method !== window ? $.proxy(method, null, params, $(element))() : null;
+        method !== window ? $.proxy(method, null, params, $(element), event)() : null;
     },
 
     /**

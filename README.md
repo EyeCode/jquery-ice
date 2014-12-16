@@ -27,11 +27,12 @@ Prerequisite:
 
 ### Syntax
 
-<@tag data-ice="" [data-ice-params=""] [data-ice-event=""]>
+<@tag data-ice="" [data-ice-params=""] [data-ice-event=""] [data-ice-callback=""]>
 * @tag: any html tag is able to run this (a, div, button, etc...)
 * data-ice: [event|method or event|namespace] Event following by the method to call, you just have to separate event from callable with a pipe.
 * data-ice-params: [Optional(mixed)] This is optional, string, integer or object can be contained here, but becareful to write well defined object if used.
 * data-ice-event: [Optional(string] This is also optional, but allows, directly from the dom, to register an event.
+* data-ice-callback: [Optional(string) method or namespace] This is also optional, allow callback to a function, you just have to call ice.callback(input, params) to raise the callback in method called previously. Useful to react after ajax call.
 
 Complete Doc : http://eyecode.github.io/jquery-ice/
 

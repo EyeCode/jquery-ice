@@ -27,7 +27,7 @@ Prerequisite:
 
 ### Syntax
 
-<html data-ice="" [data-ice-params=""] [data-ice-event=""] [data-ice-callback=""]>
+<%html% data-ice="" [data-ice-params=""] [data-ice-event=""] [data-ice-callback=""]>
 * html: any html tag is able to run this (a, div, button, etc...)
 * data-ice: [event|method or event|namespace] Event following by the method to call, you just have to separate event from callable with a pipe.
 * data-ice-params: [Optional(mixed)] This is optional, string, integer or object can be contained here, but becareful to write well defined object if used.

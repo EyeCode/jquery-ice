@@ -74,20 +74,18 @@
                    Click Here
                 </a>
             </p>
-
+            <hr>
             <h3>
                 <a id="syntax" class="anchor" href="#syntax" aria-hidden="true"><span class="octicon octicon-link"></span></a>Syntax</h3>
 
-            <p>&lt;html data-ice="" [data-ice-params=""] [data-ice-event=""] [data-ice-callback=""]&gt;</p>
-
-            <ul>
-                <li>html: any html tag is able to run this (a, div, button, etc...)</li>
-                <li>data-ice: [(string)event|method or event|namespace] Event following by the method to call, you just have to separate event from callable with a pipe.</li>
-                <li>data-ice-params: [Optional(mixed)] This is optional, string, integer or object can be contained here, but becareful to write well defined object if used.</li>
-                <li>data-ice-event: [Optional(string] This is also optional, but allows, directly from the dom, to register an event.</li>
-                <li>data-ice-callback: [Optional(string) method or namespace] This is also optional, allow callback to a function, you just have to call ice.callback(input, params) to raise the callback in method called previously. Useful to react after ajax call</li>
-            </ul>
-
+                <div class="syntax">
+                    <p>&lt;<em>html</em> <em>data-ice</em>="" [<em>data-ice-params</em>=""] [<em>data-ice-event</em>=""] [<em>data-ice-callback</em>=""]&gt;</p>
+                    <p><em>html</em><br>Type: String<br>Any html tag is able to run this (a, div, button, etc...)</p><hr>
+                    <p><em>data-ice</em><br>Type: String<br>Event following by the namespace/method to call, you just have to separate event from callable with a pipe.</p> <hr>
+                    <p><em>data-ice-params</em><br>Type: Mixed<br>String, Integer, Array or Object can be contained here as param to the called method, but becareful to write well defined object if used.</p> <hr>
+                    <p><em>data-ice-event</em><br>Type: String<br>Allows, directly from the dom, to register an event.</p> <hr>
+                    <p><em>data-ice-callback</em><br>Type: String<br>Allow callback to a method, you just have to call <code>ice.callback(input, params)</code> to raise the callback in method called previously. Useful to react after ajax call</p>
+                </div>
             <div id="foot">
                 <hr>
                 <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>

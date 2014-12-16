@@ -694,6 +694,24 @@ hr {
   margin: 0 0 20px;
 }
 
+.syntax hr {
+    border-bottom: 1px solid #666;
+    background: none;
+}
+
+blockquote code, blockquote em {
+    font-style: normal;
+}
+
+p em {
+    color:  #4D90CE;
+    font-style: normal;
+}
+
+blockquote p {
+    color:  #aaa;
+}
+
 dt {
   color: #F0E7D5;
   font-family: 'OpenSansSemibold', "Helvetica Neue", Helvetica, Arial, sans-serif !important;

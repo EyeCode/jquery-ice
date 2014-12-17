@@ -1,6 +1,6 @@
 /**
  * JQuery Ice tool -- (I)nitialize (C)all to (E)vents
- * v1.0.6
+ * v1.0.7
  * GOAL: Provide a simple and robust method to listen and react to events
  *       on DOM regardless of whether it is static or dynamic
  *
@@ -28,7 +28,8 @@ $.Class({
 
     /**
      * Initialization of action
-     *    Call method configured in the data-ice element
+     *    Call method configured in the data-action element
+     *    see it.callback.action for methods definition
      */
     init: function () {
         this.registerIceEvents(this);
@@ -68,15 +69,18 @@ $.Class({
     call: function (element, event) {
         var calling = this.callable($(element), event.type),
             params = this.getArguments($(element)),
-            method = window;
+            method = context = window;
 
         $.each(calling, function(index, value){
+            if (typeof method.getType !== 'undefined' && method.getType() === 'Class') {
+                context = method;
+            }
             if (typeof method[value] !== 'undefined') {
                 method = method[value];
             }
         });
 
-        method !== window ? $.proxy(method, null, params, $(element), event)() : null;
+        method !== window ? $.proxy(method, context, params, $(element), event)() : null;
     },
 
     /**
@@ -86,15 +90,17 @@ $.Class({
      * @param params
      */
     callback: function (element, params) {
-        var method = window;
+        var method = context = window;
         if ($(element).data('iceCallback')) {
-            $.each($(element).data('iceCallback').split('.'), function(index, value){
+            $.each($(element).data('iceCallback').split('.'), function (index, value) {
+                if (typeof method.getType !== 'undefined' && method.getType() === 'Class') {
+                    context = method;
+                }
                 if (typeof method[value] !== 'undefined') {
                     method = method[value];
                 }
             });
-
-            $.proxy(method, null, params, $(element))();
+            $.proxy(method, context, params, $(element))();
         }
     },
 

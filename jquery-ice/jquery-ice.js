@@ -1,6 +1,6 @@
 /**
  * JQuery Ice tool -- (I)nitialize (C)all to (E)vents
- * v1.0.8
+ * v1.0.9
  * GOAL: Provide a simple and robust method to listen and react to events
  *       on DOM regardless of whether it is static or dynamic
  *
@@ -54,7 +54,7 @@ $.Class({
     addListener: function(event) {
         $('body').on(event, this.buildStrListener(event), function (e) {
             var $element = $(this);
-            if (!$element.prop('disabled')) {
+            if (!$element.prop('disabled') && !$element.attr('disabled')) {
                 ice.call($element, e);
             }
         });

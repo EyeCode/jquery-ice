@@ -47,7 +47,7 @@ $.Class({
      */
     startListeners: function(self) {
         $.each(self.events, function(event, selectors) {
-            self.addDefaultListener(event);
+            self.addDefaultListener(event, selectors);
         });
     },
 
@@ -191,7 +191,7 @@ $.Class({
         var domSelector = [];
 
         for (var x in selectors) {
-            domSelector.push(selector[x] + this.ICE());
+            domSelector.push(selectors[x] + this.ICE());
         }
 
         return domSelector.join(', ');

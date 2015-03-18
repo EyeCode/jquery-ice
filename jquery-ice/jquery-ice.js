@@ -1,6 +1,6 @@
 /**
  * JQuery Ice tool -- (I)nitialize (C)all to (E)vents
- * v1.0.9
+ * v1.1.0
  * GOAL: Provide a simple and robust method to listen and react to events
  *       on DOM regardless of whether it is static or dynamic
  *
@@ -23,8 +23,12 @@ $.Class({
         SPLITTER: '|'
     },
 
-    // common base known events, no needs to register those manually
-    events: ['click', 'change', 'focus', 'blur', 'submit'],
+    // common base known events for dom node, no needs to register those manually
+    events:  {
+        'click' : ['a', 'button', 'div', 'p'],
+        'change': ['input', 'select', 'textarea'],
+        'submit': ['form']
+    },
 
     /**
      * Initialization of action
@@ -33,7 +37,7 @@ $.Class({
      */
     init: function () {
         this.registerIceEvents(this);
-        this.startListeners(this.events);
+        this.startListeners(this);
     },
 
     /**
@@ -41,10 +45,24 @@ $.Class({
      *
      * @param events
      */
-    startListeners: function(events) {
-        for (var x in events) {
-            this.addListener(events[x]);
-        }
+    startListeners: function(self) {
+        $.each(self.events, function(event, selectors) {
+            self.addDefaultListener(event);
+        });
+    },
+
+    /**
+     * Add default listener to an event
+     * @param event
+     * @param selectors
+     */
+    addDefaultListener: function(event, selectors) {
+        $('body').on(event, this.buildPreStrListener(selectors), function (e) {
+            var $element = $(this);
+            if (!$element.prop('disabled') && !$element.attr('disabled')) {
+                ice.call($element, e);
+            }
+        });
     },
 
     /**
@@ -155,11 +173,27 @@ $.Class({
     /**
      * Build string [data-ice^=""] to provide something to listen
      *
-     * @param event string  The data-ice event to listen
+     * @param event     The data-ice event to listen
      *
      * @return string       The event to listen
      */
     buildStrListener: function (event) {
         return this.ICE().replace(']', '^="'+ event +'"]');
+    },
+
+    /**
+     * Build string [data-ice] to provide something to listen
+     * @param selectors CSS selectors related to event
+     *
+     * @return string       The event to listen
+     */
+    buildPreStrListener: function (selectors) {
+        var domSelector = [];
+
+        for (var x in selectors) {
+            domSelector.push(selector[x] + this.ICE());
+        }
+
+        return domSelector.join(', ');
     }
 });

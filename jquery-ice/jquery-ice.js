@@ -76,7 +76,6 @@ $.Class({
      * @param event
      */
     addListener: function(event) {
-        console.log(this.buildStrListener(event));
         $('body').on(event, this.buildStrListener(event), function (e) {
             var $element = $(this);
             if (!$element.prop('disabled') && !$element.attr('disabled')) {

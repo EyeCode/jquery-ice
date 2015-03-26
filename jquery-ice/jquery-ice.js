@@ -30,6 +30,8 @@ $.Class({
         'submit': ['form']
     },
 
+    customEvents: [],
+
     /**
      * Initialization of action
      *    Call method configured in the data-action element
@@ -48,6 +50,10 @@ $.Class({
     startListeners: function(self) {
         $.each(self.events, function(event, selectors) {
             self.addDefaultListener(event, selectors);
+        });
+
+        $.each(self.customEvents, function(idx, event) {
+            self.addListener(event);
         });
     },
 
@@ -70,6 +76,7 @@ $.Class({
      * @param event
      */
     addListener: function(event) {
+        console.log(this.buildStrListener(event));
         $('body').on(event, this.buildStrListener(event), function (e) {
             var $element = $(this);
             if (!$element.prop('disabled') && !$element.attr('disabled')) {
@@ -153,7 +160,7 @@ $.Class({
     registerIceEvents: function(self) {
         $(this.ICE().replace(']', '-event]')).each(function() {
             if ($.inArray($(this).data('iceEvent'), self.events) == -1) {
-                self.events.push($(this).data('iceEvent'));
+                self.customEvents.push($(this).data('iceEvent'));
             }
         });
     },

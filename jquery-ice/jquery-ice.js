@@ -158,7 +158,7 @@ $.Class({
      */
     registerIceEvents: function(self) {
         $(this.ICE().replace(']', '-event]')).each(function() {
-            if ($.inArray($(this).data('iceEvent'), self.events) == -1) {
+            if ($.inArray($(this).data('iceEvent'), self.customEvents) == -1) {
                 self.customEvents.push($(this).data('iceEvent'));
             }
         });

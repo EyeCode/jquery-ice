@@ -52,17 +52,23 @@ Register event - You can register multiple events on the fly and attach a callab
 ### Syntax
 
 <%html% data-ice[-event]="callable" [data-ice-params=""] [data-ice-callback=""]>
-* html:
-any html tag is able to run this (a, div, button, etc...)
-* data-ice[-event]="callable":
-[-event] : can be replaced with any known event such as dblclick, mousedown, keypress or any custom event (ex: raised.custom.event become data-ice-raised-custom-event) that can be triggered
-callable : any reachable namespace/method, the callable will receive 3 arguments:
- - params : Params setted in data-ice-params
- - element : The element that raised the event
- - event : The raised event
-* data-ice-params: [Optional(mixed)] This is optional, string, integer or object can be contained here, but becareful to write well defined object if used.
-* data-ice-event: [Optional(string] This is also optional, but allows, directly from the dom, to register an event.
-* data-ice-callback: [Optional(string) method or namespace] This is also optional, allow callback to a function, you just have to call ice.callback(input, params) to raise the callback in method called previously. Useful to react after ajax call.
+__html:__
+>any html tag is able to run this (a, div, button, etc...)
+__data-ice[-event]="callable":__
+> [-event] : can be replaced with any known event such as dblclick, mousedown, keypress or any custom event (ex: raised.custom.event become data-ice-raised-custom-event) that can be triggered 
+> callable : any reachable namespace/method, the callable will receive 3 arguments:
+> - params : Params setted in data-ice-params
+> - element : The element that raised the event
+> - event : The raised event
+
+__data-ice-params:__
+> [Optional(mixed)] This is optional, string, integer or object can be contained here, but becareful to write well defined object if used.
+
+__data-ice-event:__
+> [Optional(string] This is also optional, but allows, directly from the dom, to register an event.
+
+__data-ice-callback:__
+> [Optional(string) method or namespace] This is also optional, allow callback to a function, you just have to call ice.callback(input, params) to raise the callback in method called previously. Useful to react after ajax call.
 
 Complete Doc : http://eyecode.github.io/jquery-ice/
 

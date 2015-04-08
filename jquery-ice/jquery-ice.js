@@ -102,7 +102,7 @@ $.Class({
      * @param self
      */
     startListeners: function(self) {
-        $.each(self.events.default, function(key, value) {
+        $.each(self.events, function(key, value) {
             $('body').on(value.event, value.strListener, function (e) {
                 var $element = $(this);
                 if (!$element.prop('disabled') && !$element.attr('disabled')) {

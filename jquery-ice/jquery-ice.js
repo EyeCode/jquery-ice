@@ -1,36 +1,62 @@
 /**
  * JQuery Ice tool -- (I)nitialize (C)all to (E)vents
- * v1.1.0
+ * v2.0.0
  * GOAL: Provide a simple and robust method to listen and react to events
  *       on DOM regardless of whether it is static or dynamic
  *
  * Usage:
- *  Put data-ice="event|namespace" on DOM element to be listened
- *        Where:
- *          event: It is the listening event
+ *  By default some html tag have a default event attached when data-ice is present:
+ *      Put data-ice="namespace" on DOM element to be listened
+ *      Where:
  *          namespace: the namespace/method to call
- * Basic example:
- *  <a data-ice="click|alert" data-ice-params="HELLO WORLD!">click here</a>
- *  This will listen on click of the element and call alert() with declared params
+ *  Basic example:
+ *      <a data-ice="alert" data-ice-params="HELLO WORLD!">click here</a>
+ *      This will listen on click of the element and call alert() with declared params
+ *      <form data-ice="validate">...</form>
+ *      This will listen on submit of the form and call validate()
+ *  For the already attached event list see <events> below
+ *
+ *  You can add more than one event listener to a html tag, just follow this example:
+ *      Put data-ice-[event]="namespace" on DOM element to be listened
+ *      Where:
+ *          event: the new event to register
+ *          namespace: the namespace/method to call
+ *  Basic example:
+ *      <a
+ *          data-ice="alert"
+ *          data-ice-dblclick="confirm"
+ *          data-ice-custom-event="doSomething"
+ *          data-ice-params="HELLO WORLD!"
+ *      >
+ *          click here
+ *      </a>
+ *      Ok, we have now 3 registered events for a single html tag:
+ *          1. This will listen on click and call alert("HELLO WORLD!") / because it's a default listener to <a/>
+ *          2. This will listen on dbclick and call confirm("HELLO WORLD!")
+ *          3. This will also listen on custom.event and call doSomething("HELLO WORLD!"),
+ *             where the "custom.event" is created and registred on the fly.
  */
 
 $.Class({
     namespace: 'ice',
 
-    // constant
-    consts: {
-        ICE: '[data-ice]',
-        SPLITTER: '|'
+    /**
+     *  Events container
+     */
+    events: {
+        click: {
+            event: 'click',
+            strListener: 'a[data-ice], div[data-ice], button[data-ice]'
+        },
+        change: {
+            event: 'change',
+            strListener: 'input[data-ice], select[data-ice], textarea[data-ice]'
+        },
+        submit: {
+            event: 'submit',
+            strListener: 'form[data-ice]'
+        }
     },
-
-    // common base known events for dom node, no needs to register those manually
-    events:  {
-        'click' : ['a', 'button', 'div', 'p'],
-        'change': ['input', 'select', 'textarea'],
-        'submit': ['form']
-    },
-
-    customEvents: [],
 
     /**
      * Initialization of action
@@ -38,49 +64,51 @@ $.Class({
      *    see it.callback.action for methods definition
      */
     init: function () {
-        this.registerIceEvents(this);
+        this.addHelpers();
+        this.registerEvents(this);
         this.startListeners(this);
+    },
+
+    /**
+     * Extract Custom events to listen from dom elements
+     *
+     * @param self
+     */
+    registerEvents: function(self) {
+        $(":hasAttr(^data-ice.*$)").each(function() {
+            $.each($(this).data(), function(key, value) {
+                if (key.indexOf('ice') === 0) {
+                    switch (key) {
+                        case "ice": case "iceParams": case "iceCallback":
+                        // do nothing...
+                        break;
+                        default:
+                            if (typeof self.events[key] === 'undefined') {
+                                self.events[key] = {
+                                    event: key.replace('ice', '').unCamelize('.'),
+                                    strListener: '[data-' + key.unCamelize('-') + ']'
+                                };
+                            }
+                            break;
+                    }
+                }
+            });
+        })
     },
 
     /**
      * Start listeners for those events
      *
-     * @param events
+     * @param self
      */
     startListeners: function(self) {
-        $.each(self.events, function(event, selectors) {
-            self.addDefaultListener(event, selectors);
-        });
-
-        $.each(self.customEvents, function(idx, event) {
-            self.addListener(event);
-        });
-    },
-
-    /**
-     * Add default listener to an event
-     * @param event
-     * @param selectors
-     */
-    addDefaultListener: function(event, selectors) {
-        $('body').on(event, this.buildPreStrListener(selectors), function (e) {
-            var $element = $(this);
-            if (!$element.prop('disabled') && !$element.attr('disabled')) {
-                ice.call($element, e);
-            }
-        });
-    },
-
-    /**
-     * Add listener to an event
-     * @param event
-     */
-    addListener: function(event) {
-        $('body').on(event, this.buildStrListener(event), function (e) {
-            var $element = $(this);
-            if (!$element.prop('disabled') && !$element.attr('disabled')) {
-                ice.call($element, e);
-            }
+        $.each(self.events.default, function(key, value) {
+            $('body').on(value.event, value.strListener, function (e) {
+                var $element = $(this);
+                if (!$element.prop('disabled') && !$element.attr('disabled')) {
+                    ice.call($element, e);
+                }
+            });
         });
     },
 
@@ -137,7 +165,13 @@ $.Class({
      * @return array  Callable
      */
     callable: function($element, event) {
-        return $element.data('ice').replace(event + this.SPLITTER(), '').split('.') || null;
+        return $element.data('ice' + event.camelize())
+            ? $element.data('ice' + event.camelize()).split('.')
+            : (
+            $element.data('ice')
+                ? $element.data('ice').split('.')
+                : null
+        )
     },
 
     /**
@@ -152,54 +186,36 @@ $.Class({
     },
 
     /**
-     * Extract new events to listen from dom elements
-     *
-     * @param self
+     * Add Helpers
      */
-    registerIceEvents: function(self) {
-        $(this.ICE().replace(']', '-event]')).each(function() {
-            if ($.inArray($(this).data('iceEvent'), self.customEvents) == -1) {
-                self.customEvents.push($(this).data('iceEvent'));
-            }
+    addHelpers: function() {
+        /**
+         * Add :hasAttr(regex) to css selector
+         * Thanks to Shawn Chin <http://stackoverflow.com/users/115845/shawn-chin>
+         * Ref: http://stackoverflow.com/questions/12199008/find-html-based-on-partial-attribute
+         */
+        $.expr[':'].hasAttr = $.expr.createPseudo(function(regex) {
+            var re = new RegExp(regex);
+            return function(obj) {
+                var attrs = obj.attributes
+                for (var i = 0; i < attrs.length; i++) {
+                    if (re.test(attrs[i].nodeName)) return true;
+                };
+                return false;
+            };
         });
-    },
 
-    /**
-     * Register new event if not already registered
-     *
-     * @param event The event to register
-     */
-    registerEvent: function (event) {
-        if ($.inArray(event, this.events) == -1) {
-            this.events.push(event);
-            this.addListener(event);
-        }
-    },
+        String.prototype.unCamelize = function (splitter) {
+            splitter = splitter || ".";
+            return this.replace(/[A-Z]/g, function (letter, position) {
+                return (position > 0 ? splitter : '') + letter.toLowerCase();
+            });
+        };
 
-    /**
-     * Build string [data-ice^=""] to provide something to listen
-     *
-     * @param event     The data-ice event to listen
-     *
-     * @return string       The event to listen
-     */
-    buildStrListener: function (event) {
-        return this.ICE().replace(']', '^="'+ event +'"]');
-    },
-
-    /**
-     * Build string [data-ice] to provide something to listen
-     * @param selectors CSS selectors related to event
-     *
-     * @return string       The event to listen
-     */
-    buildPreStrListener: function (selectors) {
-        var domSelector = [];
-
-        for (var x in selectors) {
-            domSelector.push(selectors[x] + this.ICE());
-        }
-
-        return domSelector.join(', ');
+        String.prototype.camelize = function () {
+            return this.replace (/(?:^|[-_\.])(\w)/g, function (_, letter) {
+                return letter ? letter.toUpperCase () : '';
+            })
+        };
     }
 });

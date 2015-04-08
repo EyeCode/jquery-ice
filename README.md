@@ -52,6 +52,7 @@ Register event - You can register multiple events on the fly and attach a callab
 ### Syntax
 
 <%html% data-ice[-event]="callable" [data-ice-params=""] [data-ice-callback=""]>
+
 __html:__
 >any html tag is able to run this (a, div, button, etc...)
 __data-ice[-event]="callable":__

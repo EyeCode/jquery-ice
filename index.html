@@ -41,8 +41,11 @@
                 <span class="credits left">Project maintained by <a href="https://github.com/EyeCode">EyeCode</a></span>
             </div>
 
+            <h2>Goal</h2>
             <blockquote>
-                <p>Set your template and let jquery-ICE call methods from raised events</p>
+
+                <p>Provide a simple and robust method to listen and react to events on DOM regardless of whether it is static or dynamic</p>
+                <p>So, set your template and let jquery-ICE call methods from raised events</p>
             </blockquote>
 
             <p>Prerequisite:</p>
@@ -56,34 +59,64 @@
                 <p>You can dowmload it from here or install via bower with the following package:</p>
             </blockquote>
 
-            <pre><code>"jquery-ice": "1.0.*"</code></pre>
+            <pre><code>"jquery-ice": "~2.0.0"</code></pre>
 
             <h2>
                 <a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Use</h2>
 
-            <p>1) Include <code>jquery-ice.js</code> in the page (or use the minified version) with there dependency (jquery and jquery-class)</p>
+            <p>1) Include <code>jquery-ice.js</code> in the page (or use the minified version) with there dependency (<a href="https://jquery.com/" title="jQuery">jquery</a> and <a href="http://eyecode.github.io/jquery-class/" title="jQuery Class">jquery-class</a>)</p>
 
             <p>2) Now play with the dom:</p>
+            <h3>Example 1:</h3>
+            <p>
+                Default event - Some html tag have already default event attached to it. So only data-ice="callable" is necessary<br>
+                ex:
+                <ul>
+                    <li>&lt;<span class="pl-ent">a</span>/> listen on click</li>
+                    <li>&lt;<span class="pl-ent">form</span>/> on submit</li>
+                    <li>&lt;<span class="pl-ent">input</span>/> on change</li>
+                    <li>etc. (take a look at the repo for already attached events)</li>
+                </ul>
+            </p>
 
-            <div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">a</span> <span class="pl-e">data-ice</span>=<span class="pl-s1"><span class="pl-pds">"</span>click|alert<span class="pl-pds">"</span></span> <span class="pl-e">data-ice-params</span>=<span class="pl-s1"><span class="pl-pds">"</span>Hello World!<span class="pl-pds">"</span>></span>
+            <div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">a</span> <span class="pl-e">data-ice</span>=<span class="pl-s1"><span class="pl-pds">"</span>alert<span class="pl-pds">"</span></span> <span class="pl-e">data-ice-params</span>=<span class="pl-s1"><span class="pl-pds">"</span>Hello World!<span class="pl-pds">"</span>></span>
     <span class="pl-e">Click</span> <span class="pl-e">Here</span>
 &lt;/<span class="pl-e">a</span>&gt;</pre></div>
             <p>
                 Exemple:<br/>
-                <a data-ice="click|alert" data-ice-params="Hello World!">
+                <a data-ice="alert" data-ice-params="Hello World!">
                    Click Here
                 </a>
             </p>
+            <h3>Example 2: </h3>
+            <p>
+                Register event - You can register multiple events on the fly and attach a callable. <br>(data-ice-[any-event]="callable")<br>
+            </p>
+
+            <div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">a</span><br> <span class="pl-e">data-ice</span>=<span class="pl-s1"><span class="pl-pds">"</span>alert<span class="pl-pds">" // default click event</span></span><br> <span class="pl-e">data-ice-mousedown</span>=<span class="pl-s1"><span class="pl-pds">"</span>log.mouseDown<span class="pl-pds">"</span></span><br> <span class="pl-e">data-ice-mouseup</span>=<span class="pl-s1"><span class="pl-pds">"</span>log.mouseUp<span class="pl-pds">"</span></span><br> <span class="pl-e">data-ice-params</span>=<span class="pl-s1"><span class="pl-pds">"</span>Hello World!<span class="pl-pds">"</span><br>></span>
+    <span class="pl-e">Click</span> <span class="pl-e">Here</span>
+&lt;/<span class="pl-e">a</span>&gt;</pre></div>
+            <p>
+                Exemple: <small>(Take a look your javascript console)</small><br/>
+                <a
+                    data-ice="alert"
+                    data-ice-mousedown="log.mouseDown"
+                    data-ice-mouseup="log.mouseUp"
+                    data-ice-params="Hello World!"
+                 >
+                    Click Here
+                </a>
+            </p>
             <hr>
-            <h3>
-                <a id="syntax" class="anchor" href="#syntax" aria-hidden="true"><span class="octicon octicon-link"></span></a>Syntax</h3>
+            <h2>
+                <a id="syntax" class="anchor" href="#syntax" aria-hidden="true"><span class="octicon octicon-link"></span></a>Syntax</h2>
 
                 <div class="syntax">
-                    <p>&lt;<em>html</em> <em>data-ice</em>="" [<em>data-ice-params</em>=""] [<em>data-ice-event</em>=""] [<em>data-ice-callback</em>=""]&gt;</p>
+                    <p>&lt;<em>html</em> <em>data-ice[-event]</em>="[callable]" [<em>data-ice-params</em>=""] [<em>data-ice-callback</em>=""]&gt;</p>
                     <p><em>html</em><br>Type: String<br>Any html tag is able to run this (a, div, button, etc...)</p><hr>
-                    <p><em>data-ice</em><br>Type: String<br>Event following by the namespace/method to call, you just have to separate event from callable with a pipe.</p> <hr>
+                    <p><em>data-ice[-event]="callable"</em><br>Type: String<br><i>[-event]</i> : can be replaced with any known event such as dblclick, mousedown, keypress or any custom event (ex: raised.custom.event become data-ice-raised-custom-event) that can be triggered<br>
+                        <i>callable</i> : any reachable namespace/method, the callable will receive 3 arguments: <ul><li>params : Params setted in data-ice-params</li><li>element : The element that raised the event</li><li>event : The raised event</li></ul></p> <hr>
                     <p><em>data-ice-params</em><br>Type: Mixed<br>String, Integer, Array or Object can be contained here as param to the called method, but becareful to write well defined object if used.</p> <hr>
-                    <p><em>data-ice-event</em><br>Type: String<br>Allows, directly from the dom, to register an event.</p> <hr>
                     <p><em>data-ice-callback</em><br>Type: String<br>Allow callback to a method, you just have to call <code>ice.callback(input, params)</code> to raise the callback in method called previously. Useful to react after ajax call</p>
                 </div>
             <div id="foot">
@@ -94,8 +127,18 @@
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    <script src="javascripts/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="javascripts/jquery.class.min.js"></script>
     <script src="javascripts/jquery-ice.min.js"></script>
+    <script>
+        log = {
+            mouseDown: function(params, element, event) {
+                console.log("Event raised >> " + event.type, "\nParams >> " + params );
+            },
+            mouseUp: function(params, element, event) {
+                console.log("Event raised >> " + event.type, "\nParams >> " + params );
+            }
+        }
+    </script>
 </body>
 </html>

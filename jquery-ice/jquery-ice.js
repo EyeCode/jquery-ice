@@ -1,6 +1,6 @@
 /**
  * JQuery Ice tool -- (I)nitialize (C)all to (E)vents
- * v2.0.0
+ * v2.0.2
  * GOAL: Provide a simple and robust method to listen and react to events
  *       on DOM regardless of whether it is static or dynamic
  *
@@ -56,6 +56,11 @@ $.Class({
             event: 'submit',
             strListener: 'form[data-ice]'
         }
+    },
+
+    eventsReplacement: {
+        'focusin': 'focus',
+        'focusout': 'blur'
     },
 
     /**
@@ -165,13 +170,15 @@ $.Class({
      * @return array  Callable
      */
     callable: function($element, event) {
-        return $element.data('ice' + event.camelize())
-            ? $element.data('ice' + event.camelize()).split('.')
+        data = $element.data('ice' + event.camelize())
+            ? $element.data('ice' + event.camelize())
             : (
-            $element.data('ice')
-                ? $element.data('ice').split('.')
-                : null
+            this.eventsReplacement[event] && $element.data('ice' + this.eventsReplacement[event].camelize())
+                ? $element.data('ice' + this.eventsReplacement[event].camelize())
+                : $element.data('ice')
         )
+
+        return data ? data.split('.') : []
     },
 
     /**

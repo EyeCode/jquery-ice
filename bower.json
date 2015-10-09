@@ -15,8 +15,8 @@
   "license": "MIT",
   "dependencies": {
       "jquery": "latest",
-      "jquery-class-ns": "2.0.*"
-      "modernizr": "2.8.3",
+      "jquery-class-ns": "2.0.*",
+      "modernizr": "2.8.3"
   },
   "ignore": [
     "README*",
